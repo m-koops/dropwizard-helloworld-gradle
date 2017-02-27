@@ -1,9 +1,32 @@
-# Introduction
+# Dropwizard example application - Build with Gradle
+This repository is a fork of the [Dropwizard example application by dropwizard.io](https://github.com/dropwizard/dropwizard/tree/release/1.1.x/dropwizard-example) but built with Gradle.
+
+The Gradle build is configured to use the same dependency resolution with BOM files, as applied in the original Maven project.
+
+### Running The Application
+
+To test the example application run the following commands.
+
+* To build the project run.
+
+        gradlew build
+
+* To setup the h2 database run
+
+        gradlew dbMigrate
+
+* To run the server run
+
+        gradlew server
+
+---
+# Original documentation of the sample application
+## Introduction
 
 The Dropwizard example application was developed to, as its name implies, provide examples of some of the features
 present in Dropwizard.
 
-# Overview
+## Overview
 
 Included with this application is an example of the optional DB API module. The examples provided illustrate a few of
 the features available in [Hibernate](http://hibernate.org/), along with demonstrating how these are used from within
@@ -25,7 +48,7 @@ of the PersonDAO in their constructors.
 
 As with all the modules the db example is wired up in the `initialize` function of the `HelloWorldApplication`.
 
-# Running The Application
+## Running The Application
 
 To test the example application run the following commands.
 

@@ -1,0 +1,90 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'gradle-one-jar'
+apply plugin: 'io.spring.dependency-management'
+
+ext {
+    versions = [
+            'dropwizard' : '1.2.0-SNAPSHOT'
+    ]
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.dropwizard:dropwizard-bom:${versions.dropwizard}"
+    }
+}
+
+// Use Java 8 by default
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+// UTF-8 should be standard by now. So use it!
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    maven {
+        name= 'sonatype-nexus-snapshots'
+        url= 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+
+dependencies {
+    compile 'io.dropwizard:dropwizard-core'
+    compile 'io.dropwizard:dropwizard-auth'
+    compile 'io.dropwizard:dropwizard-assets'
+    compile 'io.dropwizard:dropwizard-http2'
+    compile 'io.dropwizard:dropwizard-hibernate'
+    compile 'io.dropwizard:dropwizard-migrations'
+    compile 'io.dropwizard:dropwizard-views-freemarker'
+    compile 'io.dropwizard:dropwizard-views-mustache'
+    compile 'io.dropwizard:dropwizard-metrics-graphite'
+    compile 'com.h2database:h2'
+
+    testCompile 'io.dropwizard:dropwizard-testing'
+    testCompile 'org.mockito:mockito-core'
+    testCompile ('org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory') {
+        exclude group: 'javax.servlet', module: 'javax.servlet-api'
+        exclude group: 'junit', module: 'junit'
+    }
+    testCompile ('org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2') {
+        exclude group: 'javax.servlet', module: 'javax.servlet-api'
+        exclude group: 'junit', module: 'junit'
+    }
+}
+
+// Configure the oneJar task
+task oneJar(type: OneJar) {
+    mainClass = 'com.example.helloworld.HelloWorldApplication'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4'
+}
+
+task dbMigrate(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.example.helloworld.HelloWorldApplication'
+    args ('db', 'migrate', 'example.yml')
+}
+
+task server(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.example.helloworld.HelloWorldApplication'
+    args ('server', 'example.yml')
+}
+
+artifacts {
+    oneJar
+}
