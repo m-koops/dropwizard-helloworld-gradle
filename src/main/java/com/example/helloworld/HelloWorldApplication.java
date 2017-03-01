@@ -29,6 +29,8 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 import java.util.Map;
@@ -74,6 +76,12 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
             @Override
             public Map<String, Map<String, String>> getViewConfiguration(HelloWorldConfiguration configuration) {
                 return configuration.getViewRendererConfiguration();
+            }
+        });
+        bootstrap.addBundle(new SwaggerBundle<HelloWorldConfiguration>() {
+            @Override
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(HelloWorldConfiguration configuration) {
+                return configuration.swaggerBundleConfiguration;
             }
         });
     }

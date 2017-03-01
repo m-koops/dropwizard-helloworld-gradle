@@ -1,5 +1,8 @@
 package com.example.helloworld.core;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,14 +23,18 @@ import java.util.Objects;
         )
     }
 )
+@ApiModel( value = "Person", description = "Person resource representation" )
 public class Person {
+    @ApiModelProperty( value = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @ApiModelProperty( value = "full name", required = true )
     @Column(name = "fullName", nullable = false)
     private String fullName;
 
+    @ApiModelProperty( value = "job title", required = true )
     @Column(name = "jobTitle", nullable = false)
     private String jobTitle;
 

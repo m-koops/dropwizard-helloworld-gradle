@@ -6,7 +6,8 @@ apply plugin: 'java'
 
 ext {
     versions = [
-            'dropwizard' : '1.2.0-SNAPSHOT'
+            'dropwizard' : '1.2.0-SNAPSHOT',
+            'dropwizard_swagger' : '1.0.6-1'
     ]
 }
 
@@ -42,6 +43,7 @@ dependencies {
     compile 'io.dropwizard:dropwizard-views-mustache'
     compile 'io.dropwizard:dropwizard-metrics-graphite'
     compile 'com.h2database:h2'
+    compile "com.smoketurner:dropwizard-swagger:${versions.dropwizard_swagger}"
 
     testCompile 'io.dropwizard:dropwizard-testing'
     testCompile 'org.mockito:mockito-core'
