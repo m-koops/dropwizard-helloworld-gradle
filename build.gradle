@@ -1,17 +1,8 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
-        classpath 'io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE'
-    }
+plugins {
+    id 'org.springframework.boot' version '1.5.1.RELEASE'
 }
 
 apply plugin: 'java'
-apply plugin: 'gradle-one-jar'
-apply plugin: 'io.spring.dependency-management'
 
 ext {
     versions = [
@@ -64,27 +55,10 @@ dependencies {
     }
 }
 
-// Configure the oneJar task
-task oneJar(type: OneJar) {
+bootRepackage {
     mainClass = 'com.example.helloworld.HelloWorldApplication'
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.4'
-}
-
-task dbMigrate(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    main = 'com.example.helloworld.HelloWorldApplication'
-    args ('db', 'migrate', 'example.yml')
-}
-
-task server(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    main = 'com.example.helloworld.HelloWorldApplication'
-    args ('server', 'example.yml')
-}
-
-artifacts {
-    oneJar
 }
