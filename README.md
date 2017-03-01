@@ -13,11 +13,11 @@ To test the example application run the following commands.
 
 * To setup the h2 database run
 
-        gradlew dbMigrate
+        java -jar build/libs/dropwizard-helloworld.jar db migrate example.yml
 
 * To run the server run
 
-        gradlew server
+        java -jar build/libs/dropwizard-helloworld.jar server example.yml
 
 ---
 # Original documentation of the sample application
